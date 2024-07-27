@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculate New MAS</title>
+</head>
+<body>
+    <h1>Calculate New MAS</h1>
+    <form id="masForm">
+        <label for="x">Deviation Index (x):</label><br>
+        <input type="number" id="x" name="x" required><br><br>
+        <label for="y">Old MAS (y):</label><br>
+        <input type="number" id="y" name="y" required><br><br>
+        <button type="submit">Calculate</button>
+    </form>
+    <h2 id="result"></h2>
+
+    <script>
+        document.getElementById('masForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            const x = document.getElementById('x').value;
+            const y = document.getElementById('y').value;
+
+            fetch(`https://us-central1-nmcn-430718.cloudfunctions.net/NmcFunction?x=${x}&y=${y}`)
+                .then(response => response.text())
+                .then(data => {
+                    document.getElementById('result').innerText = data;
+                })
+                .catch(error => {
+                    document.getElementById('result').innerText = 'Error: ' + error;
+                });
+        });
+    </script>
+</body>
+</html>
